@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    background-image: url("img/download.jpg");
+    background-repeat: no-repeat;
+    background-position: right top;
+    margin-right: 100px;
+    background-color: rgb(255,255,255);opacity:1.0;
+}
+</style>
+</head>
+
+<body onload="modulaVento()">
+	<br>
+	<h2 style="text-align:center; color:Blue; font-size: 48px;">Estação Meteorológica</h2>
+
+	<br>
+	<p id="velocidade" style="text-align:center; color:blue; font-size: 30px;">-</p>
+
+<script>
+function modulaVento(){
+	var now = new Date();
+	var t = now.getSeconds();
+	document.getElementById("velocidade").innerHTML = "Velocidade do Vento: " + t + " m/s";
+	
+	var img;
+	if(t > 10){
+		img = "img/brisa.jpg";
+		
+	} else {
+		img = "img/ventoforte.jpg";
+	}
+	document.getElementById('ar').src = img;
+	
+	setTimeout("modulaVento();", 5000);
+}
+</script>
+
+<div style="text-align: center;">
+<img id="ar" src="img/brisa.jpg" style="width:582px">
+</div>
+
+</body>
+</html>
