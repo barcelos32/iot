@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<!-- HTML5 -->
+<html>
+<title>Estação Metereológica</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<head>
+<style>
+body {
+   <!--background-image: url("img/download.jpg"); -->
+    background-repeat: no-repeat;
+    background-position: right top;
+    margin-right: 100px; 
+    background-color: rgb(255,255,255);opacity:50.0;
+}
+</style>
+</head>
+
+<body onload="modulaVento()">
+	<div class="w3-card-4 w3-margin" style="width:100%">
+	  <div class="w3-display-container w3-text-white">
+	    <img src="img/leopoldina.jpg" alt="Lights" style="width:100%">
+	    <div class="w3-xlarge w3-display-bottomleft w3-padding">"       "LEOPOLDINA, 26&deg;C </div>
+	  </div>
+	  <div class="w3-row">
+	    <div class="w3-third w3-center">
+	      <h3>Domingo</h3>
+	      <img src="img/sun.png" alt="sun" style="width:100px">
+	    </div>
+	    <div class="w3-third w3-center">
+	      <h3>Segunda</h3>
+	      <img src="img/clouds.png" alt="cloud" style="width:100px">
+	    </div>
+	    <div class="w3-third w3-center w3-margin-bottom">
+	      <h3>Terça</h3>
+	      <img src="img/rain.png" alt="clouds" style="width:100px">
+	    </div>
+	  </div>
+	</div>
+        <p style="text-align:center; color:Blue; font-size: 48px;">Estação Meteorológica</h2> </p> 
+	<h2 id="velocidade" style="text-align:center; color:blue; font-size: 30px;">/p> </h2>
+<script>
+
+function trocaimg()
+        {
+            if(flag == false)
+            {
+                flag = true;
+                imagem = document.getElementById("imagem");
+                imagem.src = "img/vendoff.jpg";
+                
+            }
+            else
+            {
+                flag = false;
+                imagem = document.getElementById("imagem");
+                imagem.src = "img/venton.jpg";
+            }            
+        }
+
+function modulaVento(){
+	var now = new Date();
+	var t = now.getSeconds();
+	document.getElementById("velocidade").innerHTML = "Velocidade do Vento: " + t + " m/s";
+	
+	var img;
+	if(t > 10){
+		img = "img/ventoforte.jpg";
+		
+	} else {
+		img = "img/brisa.jpg";
+	}
+	document.getElementById('vento').src = img;
+	
+	setTimeout("modulaVento();", 5000);
+}
+</script>
+
+<div style="text-align: center;">
+<img id="vento" src="img/brisa.jpg" style="width:582px">
+</div>
+
+</body>
+</html>
