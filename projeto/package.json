@@ -5,11 +5,15 @@
     "license": "MIT",
     "version": "1.0.0",
     "dependencies": {
-        "mqtt": "2.13.0",
-        "mongodb": "2.2.31"
+        "body-parser": "^1.18.2",
+        "cors": "^2.8.4",
+        "express": "^4.16.3",
+        "mongodb": "2.2.31",
+        "mongoose": "^5.0.17",
+        "mqtt": "2.13.0"
     },
-    "repository" : {
-        "type" : "git",
-        "url" : "https://github.com/barcelos32/iot.git"
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/barcelos32/iot.git"
     }
 }
