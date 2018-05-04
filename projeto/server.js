@@ -1,16 +1,17 @@
 /**
  *
- * This NodeJS application listens to MQTT messages and records them to MongoDB
+ * Esta aplicação NodeJS escuta mensagens de um broker MQTTT e as grava como registro no MongoDB
  *
- * @author  Dennis de Greef <github@link0.net>
- * @license MIT
+ * @autor:  Dennis de Greef <github@link0.net>
+ * @adaptacao: Alexandre Antunes Barcelos
+ * @licensa MIT
  *
  */
 var mongodb  = require('mongodb');
 var mqtt     = require('mqtt');
 var config   = require('./config');
 
-var mqttUri  = 'mqtt://' + config.mqtt.hostname + ':' + config.mqtt.port;
+var mqttUri  = 'mqtt://' + config.mqtt.user + ':' + config.mqtt.password + '@' + config.mqtt.hostname + ':' + config.mqtt.port;
 var client   = mqtt.connect(mqttUri);
 
 client.on('connect', function () {
@@ -18,6 +19,7 @@ client.on('connect', function () {
 });
 
 var mongoUri = 'mongodb://' + config.mongodb.hostname + ':' + config.mongodb.port + '/' + config.mongodb.database;
+
 mongodb.MongoClient.connect(mongoUri, function(error, database) {
     if(error != null) {
         throw error;
