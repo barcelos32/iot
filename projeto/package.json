@@ -1,19 +1,15 @@
 {
-  "name": "projeto",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.18.2",
-    "cors": "^2.8.4",
-    "express": "^4.16.3",
-    "mongoose": "^5.0.17",
-    "mongoose-api-query": "^0.1.1-pre",
-    "mongoose-auto-increment": "^5.0.1"
-  }
+    "name": "mqtt-mongo-recorder",
+    "description": "This NodeJS application listens to MQTT messages and records them to MongoDB",
+    "author": "Dennis de Greef <github@link0.net>",
+    "license": "MIT",
+    "version": "1.0.0",
+    "dependencies": {
+        "mqtt": "1.1.3",
+        "mongodb": "2.0.28"
+    },
+    "repository" : {
+        "type" : "git",
+        "url" : "https://github.com/dennisdegreef/mqtt-mongo-recorder.git"
+    }
 }
