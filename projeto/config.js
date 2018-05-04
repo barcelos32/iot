@@ -4,7 +4,7 @@ config.debug = process.env.DEBUG || false;
 
 config.mqtt  = {};
 config.mqtt.namespace = process.env.MQTT_NAMESPACE || 'sensores';
-config.mqtt.hostname  = process.env.MQTT_HOSTNAME  || 'localhost';
+config.mqtt.hostname  = process.env.MQTT_HOSTNAME  || '35.198.8.16';
 config.mqtt.port      = process.env.MQTT_PORT      || 1883;
 config.mqtt.user      = process.env.MQTT_USER      || 'barcelos';
 config.mqtt.password  = process.env.MQTT_PASSWORD  || 'sonyk800';
