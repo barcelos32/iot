@@ -31,7 +31,7 @@ router.use(function(req, res, next) {
 //GET /
 router.get('/', function(req, res) {
 	res.json({
-		message : 'API - IoT'
+		message : 'API - Projeto Atuador'
 	});
 });
 
@@ -87,7 +87,7 @@ router.route('/atuador/:id').put(function(req, res) {
 		atuador.save(function(error) {
 			if(error)
 				res.send(error);
-			res.json({ message: 'atuador Atualizado!' });
+			res.json({ message: 'Atuador Atualizado!' });
 		});
 	});
 	console.log('PUT /atuador/:id');
@@ -100,7 +100,7 @@ router.route('/atuador/:id').delete(function(req, res) {
 	}, function(error) {
 		if(error)
 			res.send(error);
-		res.json({ message: 'atuador excluída com Sucesso! '});
+		res.json({ message: 'Atuador excluido com Sucesso! '});
 	});
 	console.log('DELETE /atuador/:id');
 });
