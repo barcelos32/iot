@@ -6,7 +6,7 @@ config.mqtt  = {};
 config.mqtt.namespace = process.env.MQTT_NAMESPACE || '#';
 config.mqtt.hostname  = process.env.MQTT_HOSTNAME  || 'localhost';
 config.mqtt.port      = process.env.MQTT_PORT      || 1883;
-config.mqtt.user      = process.env.MQTT_USER      || 'barcelos32';
+config.mqtt.user      = process.env.MQTT_USER      || 'barcelos';
 config.mqtt.password  = process.env.MQTT_PASSWORD  || 'sonyk800';
 
 config.mongodb = {};
