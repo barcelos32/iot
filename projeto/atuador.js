@@ -71,15 +71,15 @@ router.get('/', function(req, res) {
 });
 
 //GET /atuador
-/*router.route('/atuador').get(function(req, res) {
-	Atuador.find(function(err, atuador) {
+router.route('/sensor').get(function(req, res) {
+	Sensor.find(function(err, sensor) {
 		if (err)
 			res.send(err);
 
-		res.json(atuador);
+		res.json(sensor);
 	});
-	console.log('GET /atuador');
-});*/
+	console.log('GET /sensor');
+});
 
 //GET /atuador
 router.route('/atuador').get(function(req, res) {
