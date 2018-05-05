@@ -1,7 +1,6 @@
 /**
  * Pós Graduação Internet das Coisas - CEFET-MG Disciplina: Programação para
  * Sistemas de Computação Exemplo prático de RESTFul com NodeJS e MongoDB
- * Adaptação: Alexandre Antunes Barcelos
  */
 
 /* Módulos Utilizados */
@@ -15,6 +14,7 @@ var mqtt = require('mqtt');
 require('mongoose-middleware').initialize(mongoose);
 
 mongoose.connect("mongodb://localhost:27017/atuador");
+
 var client = mqtt.connect('tcp://localhost',{username: 'barcelos', password: 'sonyk800'}); //inicia o mqtt
 
 var app = express(); // Cria o app com Express
@@ -66,16 +66,27 @@ router.use(function(req, res, next) {
 //GET /
 router.get('/', function(req, res) {
 	res.json({
-		message : 'Projeto IoT - API'
+		message : 'API - IoT'
 	});
 });
+
+//GET /atuador
+/*router.route('/atuador').get(function(req, res) {
+	Atuador.find(function(err, atuador) {
+		if (err)
+			res.send(err);
+
+		res.json(atuador);
+	});
+	console.log('GET /atuador');
+});*/
 
 //GET /atuador
 router.route('/atuador').get(function(req, res) {
 	var limit = parseInt(req.query._limit) || 20;
 	var valor = req.query.valor || {$gte: 0};
 	var sort = parseInt(req.query._sort) || -1;
-	atuador.
+	Atuador.
 	find().
 	where({ valor: valor }).
 	limit(limit).
@@ -90,7 +101,7 @@ router.route('/atuador').get(function(req, res) {
 });
 
 router.route('/atuador/q').get(function(req, res) {
-	atuador.apiQuery(req.query).exec(function(err, atuador) {
+	Atuador.apiQuery(req.query).exec(function(err, atuador) {
 		if (err)
 			res.send(err);
 
@@ -103,7 +114,7 @@ router.route('/atuador/q').get(function(req, res) {
 router.route('/atuador/recente').get(function(req, res) {
 	var limit =  1;
 	var sort  = -1;
-	atuador.
+	Atuador.
 	find().
 	limit(limit).
 	sort({ _id: sort })
@@ -116,30 +127,30 @@ router.route('/atuador/recente').get(function(req, res) {
 	console.log('GET /atuador/recente');
 });
 
-/* //GET /atuador/elevada
-router.route('/atuador/elevada').get(function(req, res) {
-	var limit = 10;
-	var valor = {$gte: 30};
-	var sort =  -1;
+GET /atuador/elevada
+// router.route('/atuador/elevada').get(function(req, res) {
+	// var limit = 10;
+	// var valor = {$gte: 30};
+	// var sort =  -1;
 	
-    atuador.
-	find().
-	where({ valor: valor }).
-	limit(limit).
-	sort({ _id: sort })
-	.exec(function(err, atuador) {
-		if (err)
-			res.send(err);
+    // Atuador.
+	// find().
+	// where({ valor: valor }).
+	// limit(limit).
+	// sort({ _id: sort })
+	// .exec(function(err, atuador) {
+		// if (err)
+			// res.send(err);
 
-		res.json(atuador);
-	});
-    console.log('GET /atuador/elevada');
-}); */
+		// res.json(atuador);
+	// });
+    // console.log('GET /atuador/elevada');
+// });
 
 
 //GET /atuador/:id
 router.route('/atuador/:id').get(function(req, res) {
-	atuador.findById(req.params.id, function(error, atuador) {
+	Atuador.findById(req.params.id, function(error, atuador) {
 		if(error)
 			res.send(error);
 
@@ -150,19 +161,19 @@ router.route('/atuador/:id').get(function(req, res) {
 
 /* POST /atuador {time:"..",valor:"..."} */
 router.route('/atuador').post(function(req, res) {
-	var atuador = new atuador();
+	var atuador = new Atuador();
 
 	atuador.time = req.body.time;
 	atuador.valor = req.body.valor;
 
-	client.publish('atuador',  atuador.valor); //MQTT: publica o valor da atuador no Tópico
+	client.publish('topic-iot-cefetmg',  atuador.valor); //MQTT: publica o valor da atuador no Tópico
 	
 	atuador.save(function(error) {
 		if (error)
 			res.send(error);
 
 		res.json({
-			message : 'atuador inserido e publicado!'
+			message : 'Atuador inserido e publicado!'
 		});
 	});
 		
@@ -171,7 +182,7 @@ router.route('/atuador').post(function(req, res) {
 
 //PUT /atuador/:id {time:"..",valor:"..."}
 router.route('/atuador/:id').put(function(req, res) {
-	atuador.findById(req.params.id, function(error, atuador) {
+	Atuador.findById(req.params.id, function(error, atuador) {
 		if(error)
 			res.send(error);
 
@@ -181,7 +192,7 @@ router.route('/atuador/:id').put(function(req, res) {
 		atuador.save(function(error) {
 			if(error)
 				res.send(error);
-			res.json({ message: 'atuador Atualizado!' });
+			res.json({ message: 'Atuador Atualizado!' });
 		});
 	});
 	console.log('PUT /atuador/:id');
@@ -189,12 +200,12 @@ router.route('/atuador/:id').put(function(req, res) {
 
 //DELETE /atuador/:id
 router.route('/atuador/:id').delete(function(req, res) {
-	atuador.remove({
+	Atuador.remove({
 		_id: req.params.id
 	}, function(error) {
 		if(error)
 			res.send(error);
-		res.json({ message: 'atuador excluída com Sucesso! '});
+		res.json({ message: 'Atuador excluído com Sucesso! '});
 	});
 	console.log('DELETE /atuador/:id');
 });
