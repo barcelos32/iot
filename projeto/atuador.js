@@ -85,7 +85,7 @@ router.route('/sensor').get(function(req, res) {
 		if (err)
 			res.send(err);
 
-		res.json(sensor);
+		res.send(sensor);
 	});
 	});
 	console.log('GET /sensor');
