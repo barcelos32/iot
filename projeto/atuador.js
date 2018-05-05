@@ -17,7 +17,7 @@ mongodb.MongoClient.connect(mongoUri, function(error, database) {
     if(error != null) {
         throw error;
     }
-)};
+});
 	
 
 var collection = database.collection(config.mongodb.collection);
