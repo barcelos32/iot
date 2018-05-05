@@ -31,7 +31,8 @@ mongodb.MongoClient.connect(mongoUri, function(error, database) {
     client.on('message', function (topic, message) {
         var messageObject = {
             topic: topic,
-            message: message.toString()
+            message: message.toString(),
+            time: new Date();
         };
 
         collection.insert(messageObject, function(error, result) {
