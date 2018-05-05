@@ -10,7 +10,7 @@ var bodyParser = require('body-parser');
 var sensor = require('./models/sensor_bd_connect'); // Modelos definidos
 var mongoose = require('mongoose');
 
-var url = "mongodb://localhost:27017/sensor";
+var url = "mongodb://localhost:27017/sensores";
 mongoose.connect(url);
 
 var app = express(); // Cria o app com Express
@@ -31,7 +31,7 @@ router.use(function(req, res, next) {
 //GET /
 router.get('/', function(req, res) {
 	res.json({
-		message : 'API - IoT'
+		message : 'Sensor - API IoT'
 	});
 });
 
