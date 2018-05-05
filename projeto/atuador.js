@@ -57,6 +57,23 @@ router.route('/atuador/:id').get(function(req, res) {
 	console.log('GET /atuador/:id');
 });
 
+//GET /atuador/recente
+router.route('/atuador/recente').get(function(req, res) {
+	var limit =  1;
+	var sort  = -1;
+	Atuador.
+	find().
+	limit(limit).
+	sort({ _id: sort })
+	.exec(function(err, atuador) {
+		if (err)
+			res.send(err);
+
+		res.json(atuador);
+	});
+	console.log('GET /atuador/recente');
+});
+
 /* POST /atuador {time:"..",valor:"..."} */
 router.route('/atuador').post(function(req, res) {
 	var atuador = new atuador();
