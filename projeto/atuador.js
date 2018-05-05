@@ -13,9 +13,9 @@ var mqtt = require('mqtt');
 
 require('mongoose-middleware').initialize(mongoose);
 
-mongoose.connect("mongodb://localhost:27017/atuador");
+mongoose.connect("mongodb://35.198.8.16:27017/atuador");
 
-var client = mqtt.connect('tcp://localhost:1883',{username: 'barcelos', password: 'sonyk800'}); //inicia o mqtt
+var client = mqtt.connect('tcp://35.198.8.16:1883',{username:'barcelos', password:'sonyk800'}); //inicia o mqtt
 
 var app = express(); // Cria o app com Express
 var router = express.Router();
