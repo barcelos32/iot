@@ -10,10 +10,6 @@ var bodyParser = require('body-parser');
 var Atuador = require('./models/atuador_bd_connect'); // Modelos definidos
 var mongoose = require('mongoose');
 var mqtt = require('mqtt');
-var mongodb  = require('mongodb');
-var config   = require('./config');
-
-var mongoUri = 'mongodb://' + config.mongodb.hostname + ':' + config.mongodb.port + '/' + config.mongodb.database;
 
 require('mongoose-middleware').initialize(mongoose);
 
@@ -76,6 +72,10 @@ router.get('/', function(req, res) {
 
 //GET /sensor
 router.route('/sensor').get(function(req, res) {
+	var mongodb  = require('mongodb');
+	var config   = require('./config');
+	var mongoUri = 'mongodb://' + config.mongodb.hostname + ':' + config.mongodb.port + '/' + config.mongodb.database;
+	
 	mongodb.MongoClient.connect(mongoUri, function(error, database) {
 	var collection = database.collection(config.mongodb.collection);
 	    if(error != null) {
@@ -85,7 +85,7 @@ router.route('/sensor').get(function(req, res) {
 		if (err)
 			res.send(err);
 
-		res.send(sensor);
+		res.json(sensor);
 	});
 	});
 	console.log('GET /sensor');
