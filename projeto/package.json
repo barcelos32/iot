@@ -13,7 +13,8 @@
         "mongoose": "^5.0.17",
         "mongoose-api-query": "^0.1.1-pre",
         "mongoose-auto-increment": "^5.0.1",
-        "mqtt": "2.13.0"
+        "mongoose-middleware": "^1.0.0",
+        "mqtt": "^2.13.0"
     },
     "repository": {
         "type": "git",
