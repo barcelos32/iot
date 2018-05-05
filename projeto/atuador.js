@@ -12,7 +12,7 @@ var mongoose = require('mongoose');
 var mqtt = require('mqtt');
 var mongodb  = require('mongodb');
 var config   = require('./config');
-
+var mongoUri = 'mongodb://' + config.mongodb.hostname + ':' + config.mongodb.port + '/' + config.mongodb.database;
 mongodb.MongoClient.connect(mongoUri, function(error, database) {
     if(error != null) {
         throw error;
