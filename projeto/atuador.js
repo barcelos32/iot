@@ -7,7 +7,7 @@
 var express = require('express'); 
 var cors = require('cors'); 
 var bodyParser = require('body-parser'); 
-var Atuador = require('./models/atuador_db_connect'); // Modelos definidos
+var Atuador = require('./models/atuador_bd_connect'); // Modelos definidos
 var mongoose = require('mongoose');
 var mqtt = require('mqtt');
 
