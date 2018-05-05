@@ -127,27 +127,6 @@ router.route('/atuador/recente').get(function(req, res) {
 	console.log('GET /atuador/recente');
 });
 
-GET /atuador/elevada
-// router.route('/atuador/elevada').get(function(req, res) {
-	// var limit = 10;
-	// var valor = {$gte: 30};
-	// var sort =  -1;
-	
-    // Atuador.
-	// find().
-	// where({ valor: valor }).
-	// limit(limit).
-	// sort({ _id: sort })
-	// .exec(function(err, atuador) {
-		// if (err)
-			// res.send(err);
-
-		// res.json(atuador);
-	// });
-    // console.log('GET /atuador/elevada');
-// });
-
-
 //GET /atuador/:id
 router.route('/atuador/:id').get(function(req, res) {
 	Atuador.findById(req.params.id, function(error, atuador) {
