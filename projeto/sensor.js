@@ -10,7 +10,7 @@ var bodyParser = require('body-parser');
 var sensor = require('./models/sensor_bd_connect'); // Modelos definidos
 var mongoose = require('mongoose');
 
-var url = "mongodb://localhost:27017/sensores";
+var url = "mongodb://localhost:27017/mqtt";
 mongoose.connect(url);
 
 var app = express(); // Cria o app com Express
