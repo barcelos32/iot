@@ -12,15 +12,8 @@ var mongoose = require('mongoose');
 var mqtt = require('mqtt');
 var mongodb  = require('mongodb');
 var config   = require('./config');
-var mongoUri = 'mongodb://' + config.mongodb.hostname + ':' + config.mongodb.port + '/' + config.mongodb.database;
-mongodb.MongoClient.connect(mongoUri, function(error, database) {
-    if(error != null) {
-        throw error;
-    }
-});
-	
 
-var collection = database.collection(config.mongodb.collection);
+var mongoUri = 'mongodb://' + config.mongodb.hostname + ':' + config.mongodb.port + '/' + config.mongodb.database;
 
 require('mongoose-middleware').initialize(mongoose);
 
@@ -81,13 +74,19 @@ router.get('/', function(req, res) {
 	});
 });
 
-//GET /atuador
+//GET /sensor
 router.route('/sensor').get(function(req, res) {
+	mongodb.MongoClient.connect(mongoUri, function(error, database) {
+	var collection = database.collection(config.mongodb.collection);
+	    if(error != null) {
+		throw error;
+	    }
 	collection.find(function(err, sensor) {
 		if (err)
 			res.send(err);
 
 		res.json(sensor);
+	});
 	});
 	console.log('GET /sensor');
 });
