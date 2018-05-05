@@ -7,15 +7,11 @@
 var express = require('express'); 
 var cors = require('cors'); 
 var bodyParser = require('body-parser'); 
-var Atuador = require('./models/atuador_bd_connect'); // Modelos definidos
+var atuador = require('./models/atuador_bd_connect'); // Modelos definidos
 var mongoose = require('mongoose');
-var mqtt = require('mqtt');
 
-require('mongoose-middleware').initialize(mongoose);
-
-mongoose.connect("mongodb://localhost:27017/atuador");
-
-var client = mqtt.connect('tcp://localhost:1883',{username:'barcelos', password:'sonyk800'}); //inicia o mqtt
+var url = "mongodb://localhost:27017/atuador";
+mongoose.connect(url);
 
 var app = express(); // Cria o app com Express
 var router = express.Router();
@@ -25,37 +21,6 @@ app.use(bodyParser.urlencoded({
 	extended : true
 })); 
 app.use(bodyParser.json()); // configurações do body parser
-
-client.on('connect', function () {
-   	 client.subscribe('atuador'); //conecta e assina o tópico MQTT
-});
-
-
-client.on('message', function (topic, message) { //aguarda mensagem do tópico assinado MQTT 
-	  console.log(topic.toString());
-	  console.log(message.toString());
-	  var payload       = message.toString();
-	  var message_topic = topic.toString();
-	  
-	  var atuador = new Atuador();
-
-	  var d = new Date();
-	 
-	  atuador.time = d.getFullYear() + "-"
-		+ ("00" + (d.getMonth() + 1)).slice(-2) + "-"
-		+ ("00" + (d.getDate())).slice(-2) + " "
-		+ d.toLocaleTimeString();
-	 
-	  atuador.valor = payload;
-
-		atuador.save(function(error) { // insere no db
-			if (error)
-				console.log(error);
-
-			console.log("Inserido com Sucesso!")
-		});
-	
-});
 
 /* Rota para acompanhar as requisições */
 router.use(function(req, res, next) {
@@ -70,38 +35,9 @@ router.get('/', function(req, res) {
 	});
 });
 
-//GET /sensor
-router.route('/sensor').get(function(req, res) {
-	var mongodb  = require('mongodb');
-	var config   = require('./config');
-	var mongoUri = 'mongodb://' + config.mongodb.hostname + ':' + config.mongodb.port + '/' + config.mongodb.database;
-	
-	mongodb.MongoClient.connect(mongoUri, function(error, database) {
-	var collection = database.collection(config.mongodb.collection);
-	    if(error != null) {
-		throw error;
-	    }
-	collection.find(function(err, sensor) {
-		if (err)
-			res.send(err);
-
-		res.json(sensor);
-	});
-	});
-	console.log('GET /sensor');
-});
-
 //GET /atuador
 router.route('/atuador').get(function(req, res) {
-	var limit = parseInt(req.query._limit) || 20;
-	var valor = req.query.valor || {$gte: 0};
-	var sort = parseInt(req.query._sort) || -1;
-	Atuador.
-	find().
-	where({ valor: valor }).
-	limit(limit).
-	sort({ _id: sort })
-	.exec(function(err, atuador) {
+	atuador.find(function(err, atuador) {
 		if (err)
 			res.send(err);
 
@@ -110,36 +46,9 @@ router.route('/atuador').get(function(req, res) {
 	console.log('GET /atuador');
 });
 
-router.route('/atuador/q').get(function(req, res) {
-	Atuador.apiQuery(req.query).exec(function(err, atuador) {
-		if (err)
-			res.send(err);
-
-		res.json(atuador);
-	});
-	console.log('GET /atuador/q');
-});
-
-//GET /atuador/recente
-router.route('/atuador/recente').get(function(req, res) {
-	var limit =  1;
-	var sort  = -1;
-	Atuador.
-	find().
-	limit(limit).
-	sort({ _id: sort })
-	.exec(function(err, atuador) {
-		if (err)
-			res.send(err);
-
-		res.json(atuador);
-	});
-	console.log('GET /atuador/recente');
-});
-
 //GET /atuador/:id
 router.route('/atuador/:id').get(function(req, res) {
-	Atuador.findById(req.params.id, function(error, atuador) {
+	atuador.findById(req.params.id, function(error, atuador) {
 		if(error)
 			res.send(error);
 
@@ -150,28 +59,25 @@ router.route('/atuador/:id').get(function(req, res) {
 
 /* POST /atuador {time:"..",valor:"..."} */
 router.route('/atuador').post(function(req, res) {
-	var atuador = new Atuador();
+	var atuador = new atuador();
 
 	atuador.time = req.body.time;
 	atuador.valor = req.body.valor;
 
-	client.publish('topic-iot-cefetmg',  atuador.valor); //MQTT: publica o valor da atuador no Tópico
-	
 	atuador.save(function(error) {
 		if (error)
 			res.send(error);
 
 		res.json({
-			message : 'Atuador inserido e publicado!'
+			message : 'atuador atualizado!'
 		});
 	});
-		
 	console.log('POST /atuador');
 });
 
 //PUT /atuador/:id {time:"..",valor:"..."}
 router.route('/atuador/:id').put(function(req, res) {
-	Atuador.findById(req.params.id, function(error, atuador) {
+	atuador.findById(req.params.id, function(error, atuador) {
 		if(error)
 			res.send(error);
 
@@ -181,7 +87,7 @@ router.route('/atuador/:id').put(function(req, res) {
 		atuador.save(function(error) {
 			if(error)
 				res.send(error);
-			res.json({ message: 'Atuador Atualizado!' });
+			res.json({ message: 'atuador Atualizado!' });
 		});
 	});
 	console.log('PUT /atuador/:id');
@@ -189,12 +95,12 @@ router.route('/atuador/:id').put(function(req, res) {
 
 //DELETE /atuador/:id
 router.route('/atuador/:id').delete(function(req, res) {
-	Atuador.remove({
+	atuador.remove({
 		_id: req.params.id
 	}, function(error) {
 		if(error)
 			res.send(error);
-		res.json({ message: 'Atuador excluído com Sucesso! '});
+		res.json({ message: 'atuador excluída com Sucesso! '});
 	});
 	console.log('DELETE /atuador/:id');
 });
