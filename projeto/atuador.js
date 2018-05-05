@@ -10,6 +10,15 @@ var bodyParser = require('body-parser');
 var Atuador = require('./models/atuador_bd_connect'); // Modelos definidos
 var mongoose = require('mongoose');
 var mqtt = require('mqtt');
+var mongodb  = require('mongodb');
+var config   = require('./config');
+
+mongodb.MongoClient.connect(mongoUri, function(error, database) {
+    if(error != null) {
+        throw error;
+    }
+
+var collection = database.collection(config.mongodb.collection);
 
 require('mongoose-middleware').initialize(mongoose);
 
@@ -72,7 +81,7 @@ router.get('/', function(req, res) {
 
 //GET /atuador
 router.route('/sensor').get(function(req, res) {
-	Sensor.find(function(err, sensor) {
+	collection.find(function(err, sensor) {
 		if (err)
 			res.send(err);
 
