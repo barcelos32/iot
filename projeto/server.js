@@ -156,7 +156,7 @@ router.route('/sensor').post(function(req, res) {
 	sensor.temp = req.body.temp;
 	sensor.lumi = req.body.lumi;
 	
-	client.publish('sensor',  sensor.temp; //MQTT: publica o valor da sensor no Tópico
+	client.publish('sensores',  sensor); //MQTT: publica o valor da sensor no Tópico
 	
 	sensor.save(function(error) {
 		if (error)
