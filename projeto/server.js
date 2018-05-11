@@ -202,5 +202,5 @@ router.route('/sensor/:id').delete(function(req, res) {
 
 app.use('/', router);
 
-app.listen(3001);
+app.listen(3000);
 console.log('Servidor executando.');
